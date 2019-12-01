@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AngleClient": {
+      "commandName": "Project",
+      "commandLineArgs": "https://localhost:5001"
+    }
+  }
+}
