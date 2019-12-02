@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -22,17 +23,25 @@ namespace WorkorderService.Controllers
         }
 
         [HttpPost]
-        public async Task CreateWorkorder(string clientCode)
+        public async Task<IActionResult> CreateWorkorder(string clientCode)
         {
             _logger.LogInformation($"Received request to create workorder for client {clientCode}");
 
+            if (!ClientService.DoesClientExist(clientCode))
+            {
+                return BadRequest("Client code does not exist");
+            }
+
             Thread.Sleep(2000);
 
+            var newWorkorderId = Guid.NewGuid().ToString();
             await _messagingService.Publish(new WorkorderCommitted
             {
-                WorkorderId = Guid.NewGuid().ToString(),
+                WorkorderId = newWorkorderId,
                 ClientCode = clientCode
             });
+
+            return new JsonResult(new WorkorderCreated { Id = newWorkorderId });
         }
     }
 }

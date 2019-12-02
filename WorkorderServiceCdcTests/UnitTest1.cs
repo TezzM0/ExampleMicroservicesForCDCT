@@ -1,9 +1,9 @@
 using System;
 using Xunit;
 
-namespace AngleClientCdcTests
+namespace WorkorderServiceCdcTests
 {
-    public class WorkorderServiceTests
+    public class UnitTest1
     {
         [Fact]
         public void Test1()

@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq;
 
-namespace AngleClient
+namespace WorkorderService.DomainServices
 {
-    internal class Clients
+    public class ClientService
     {
         private static string[] clientCodes = new[]
         {
@@ -17,11 +18,9 @@ namespace AngleClient
             "SXZ"
         };
 
-        private static Random random = new Random();
-        
-        public static string GetClientCode()
+        public static bool DoesClientExist(string clientCode)
         {
-            return clientCodes[random.Next(0, 9)];
+            return clientCodes.Contains(clientCode);
         }
     }
 }
