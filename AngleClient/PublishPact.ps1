@@ -1,0 +1,3 @@
+﻿## Publishes the pact contract to the broker so that it can be verified by the provider.
+## This script will need to be made generic and run as a build step after all consumer tests are complete - because multiple tests can write to the same pact file. If you only run one test and publish, then you wipe out all your other tests' pacts.
+Invoke-WebRequest -Uri "https://test_als_terry.pact.dius.com.au/pacts/provider/WorkorderService/consumer/AngleClient/version/1.0.1+1.Branch.master.Sha.e7f40378e856abc12ddc61dd52661be21384531b" -Headers @{ Authorization = "Bearer XUxGLRjlW2wM-CBBFK0P9w" } -Method Put -InFile .\angleclient-workorderservice.json -ContentType "application/json" | Write-Output
