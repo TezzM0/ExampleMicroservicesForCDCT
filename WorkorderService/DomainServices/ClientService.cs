@@ -1,9 +1,8 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace WorkorderService.DomainServices
 {
-    public class ClientService
+    public class ClientService : IClientService
     {
         private static string[] clientCodes = new[]
         {
@@ -18,7 +17,7 @@ namespace WorkorderService.DomainServices
             "SXZ"
         };
 
-        public static bool DoesClientExist(string clientCode)
+        public bool DoesClientExist(string clientCode)
         {
             return clientCodes.Contains(clientCode);
         }

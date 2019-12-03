@@ -4,6 +4,7 @@ using PactNet.Mocks.MockHttpService;
 using PactNet.Mocks.MockHttpService.Models;
 using System;
 using System.Collections.Generic;
+using PactNet.Matchers;
 using Xunit;
 
 namespace AngleClientCdcTests
@@ -37,7 +38,7 @@ namespace AngleClientCdcTests
                     Status = 400,
                     Headers = new Dictionary<string, object>
                     {
-                        { "Content-Type", "application/json; charset=utf-8" }
+                        { "Content-Type", "text/plain; charset=utf-8" }
                     },
                     Body = "Client code does not exist"
                 });
@@ -55,7 +56,6 @@ namespace AngleClientCdcTests
         [Fact]
         public void CreateWorkorderAcceptsValidClientCode()
         {
-            var newId = "600b6ad4-1705-4c76-8874-1ed62d155b2d";
             _mockProviderService
                 .Given("A client with code COOL exists")
                 .UponReceiving("A request to create a workorder with a client code COOL")
@@ -72,7 +72,12 @@ namespace AngleClientCdcTests
                     {
                         { "Content-Type", "application/json; charset=utf-8" }
                     },
-                    Body = new { Id = newId }
+                    Body = new 
+                    {
+                        Id = Match.Regex(
+                            "600b6ad4-1705-4c76-8874-1ed62d155b2d",
+                            @"(?im)^[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?$")
+                    }
                 });
 
             var actualWorkorderCreated = _mockWorkorderServiceClient.CreateWorkorder("COOL")

@@ -28,16 +28,16 @@ namespace CdcTestsShared
         public int MockServerPort => 9222;
         public string MockProviderServiceBaseUri => $"http://localhost:{MockServerPort}";
 
-        private bool disposed = false;
+        private bool _disposed = false;
         public void Dispose()
         {
-            if (disposed)
+            if (_disposed)
             {
                 return;
             }
 
             PactBuilder.Build();
-            disposed = true;
+            _disposed = true;
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +14,14 @@ namespace WorkorderService.Controllers
     {
         private readonly ILogger<WorkorderController> _logger;
         private readonly MessagingService _messagingService;
+        private readonly IClientService _clientService;
 
-        public WorkorderController(ILogger<WorkorderController> logger, MessagingService messagingService)
+        public WorkorderController(
+            ILogger<WorkorderController> logger, MessagingService messagingService, IClientService clientService)
         {
             _logger = logger;
             _messagingService = messagingService;
+            _clientService = clientService;
         }
 
         [HttpPost]
@@ -27,7 +29,7 @@ namespace WorkorderService.Controllers
         {
             _logger.LogInformation($"Received request to create workorder for client {clientCode}");
 
-            if (!ClientService.DoesClientExist(clientCode))
+            if (!_clientService.DoesClientExist(clientCode))
             {
                 return BadRequest("Client code does not exist");
             }
