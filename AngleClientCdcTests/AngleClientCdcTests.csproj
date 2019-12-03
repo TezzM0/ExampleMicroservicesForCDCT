@@ -20,4 +20,10 @@
     <ProjectReference Include="..\CdcTestsShared\CdcTestsShared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="PactNetMessages">
+      <HintPath>..\..\pact-net-messages\PactNetMessages\bin\Debug\netstandard2.0\PactNetMessages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
