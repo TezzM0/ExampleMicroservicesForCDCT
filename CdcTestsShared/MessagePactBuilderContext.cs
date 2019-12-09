@@ -3,9 +3,9 @@ using PactNetMessages;
 
 namespace CdcTestsShared
 {
-    public class MessagePactClassFixture : IDisposable
+    public class MessagePactBuilderContext : IDisposable
     {
-        public MessagePactClassFixture(string consumerName, string providerName)
+        public MessagePactBuilderContext(string consumerName, string providerName)
         {
             var pactConfig = new PactConfig
             {

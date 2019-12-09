@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using NServiceBus;
+using RunService.DomainServices;
 using RunService.Messages;
 using WorkorderService.Messages;
 
@@ -9,7 +10,12 @@ namespace RunService.Handlers
 {
     public class WorkorderCommittedHandler : IHandleMessages<WorkorderCommitted>
     {
-        private static Random random = new Random();
+        private readonly IRunTasksProvider _runTasksProvider;
+
+        public WorkorderCommittedHandler(IRunTasksProvider runTasksProvider)
+        {
+            _runTasksProvider = runTasksProvider;
+        }
 
         public async Task Handle(WorkorderCommitted message, IMessageHandlerContext context)
         {
@@ -18,8 +24,8 @@ namespace RunService.Handlers
             Thread.Sleep(3000);
             await context.Publish(new RunTasksAuthorized
             {
-                ClientCode = message.ClientCode,
-                NumberOfTasks = random.Next()
+                WorkorderId = message.WorkorderId,
+                NumberOfTasks = _runTasksProvider.GetNumberOfTasks(message.WorkorderId)
             });
         }
     }

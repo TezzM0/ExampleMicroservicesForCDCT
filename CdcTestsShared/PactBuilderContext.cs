@@ -4,9 +4,9 @@ using PactNet.Mocks.MockHttpService;
 
 namespace CdcTestsShared
 {
-    public abstract class PactClassFixture : IDisposable
+    public abstract class PactBuilderContext : IDisposable
     {
-        protected PactClassFixture(string consumerName, string providerName)
+        protected PactBuilderContext(string consumerName, string providerName)
         {
             // Using Spec version 2.0.0 more details at https://goo.gl/UrBSRc
             var pactConfig = new PactConfig
@@ -16,7 +16,7 @@ namespace CdcTestsShared
                 LogDir = @".\pact_logs"
             };
 
-            PactBuilder = new PactBuilder(pactConfig);
+            PactBuilder = new PactNet.PactBuilder(pactConfig);
             PactBuilder.ServiceConsumer(consumerName).HasPactWith(providerName);
 
             MockProviderService = PactBuilder.MockService(MockServerPort);

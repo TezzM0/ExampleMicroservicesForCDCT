@@ -9,16 +9,16 @@ using Xunit;
 
 namespace AngleClientCdcTests
 {
-    public class WorkorderServicePactTests : IClassFixture<WorkorderServicePactClassFixture>
+    public class WorkorderServicePactTests : IClassFixture<WorkorderServicePactBuilderContext>
     {
         private readonly IMockProviderService _mockProviderService;
         private readonly WorkorderServiceClient _mockWorkorderServiceClient;
 
-        public WorkorderServicePactTests(WorkorderServicePactClassFixture fixture)
+        public WorkorderServicePactTests(WorkorderServicePactBuilderContext pactBuilderContext)
         {
-            _mockProviderService = fixture.MockProviderService;
+            _mockProviderService = pactBuilderContext.MockProviderService;
             _mockProviderService.ClearInteractions();
-            _mockWorkorderServiceClient = new WorkorderServiceClient(fixture.MockProviderServiceBaseUri);
+            _mockWorkorderServiceClient = new WorkorderServiceClient(pactBuilderContext.MockProviderServiceBaseUri);
         }
 
         [Fact]

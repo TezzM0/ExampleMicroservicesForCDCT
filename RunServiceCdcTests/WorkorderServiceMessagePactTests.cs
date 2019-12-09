@@ -1,7 +1,6 @@
-﻿using WorkorderService.Messages;
-using Xunit;
+﻿using Xunit;
 
-namespace AngleClientCdcTests
+namespace RunServiceCdcTests
 {
     public class WorkorderServiceMessagePactTests : IClassFixture<WorkorderServiceMessagePactBuilderContext>
     {
@@ -16,12 +15,12 @@ namespace AngleClientCdcTests
         public void WorkorderCommittedMessageReceivedAfterWorkorderIsCreated()
         {
             _pactBuilderContext.PactMessageBuilder.MockMq()
-                .Given("A workorder has been created for the client BOB")
+                .Given("A workorder has been created for the client ALICE")
                 .UponReceiving("A workorder committed message")
                 .WithMetaData(new { })
-                .WithContent(new WorkorderCommitted
+                .WithContent(new
                 {
-                    ClientCode = "BOB"
+                    ClientCode = "ALICE"
                 });
         }
     }

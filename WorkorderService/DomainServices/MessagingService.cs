@@ -5,37 +5,29 @@ using WorkorderService.Messages;
 
 namespace WorkorderService.DomainServices
 {
-    public sealed class MessagingService : IDisposable
+    public sealed class MessagingConfiguration : IDisposable
     {
-        private IEndpointInstance _endpointInstance;
-
-        public async Task Publish(WorkorderCommitted workorderCommitted)
-        {
-            var messageSession = await GetMessageSession()
-                .ConfigureAwait(false);
-            await messageSession.Publish(workorderCommitted)
-                .ConfigureAwait(false);
-        }
+        public IEndpointInstance EndpointInstance { get; private set; }
 
         private async Task<IMessageSession> GetMessageSession()
         {
-            if (_endpointInstance == null)
+            if (EndpointInstance == null)
             {
                 var endpointConfiguration = new EndpointConfiguration("WorkorderService");
                 var transport = endpointConfiguration.UseTransport<LearningTransport>();
                 transport.StorageDirectory("C:/Users/Terry.Rossow/source/repos/MessageQueue");
-                _endpointInstance = await Endpoint.Start(endpointConfiguration)
+                EndpointInstance = await Endpoint.Start(endpointConfiguration)
                     .ConfigureAwait(false);
             }
 
-            return _endpointInstance;
+            return EndpointInstance;
         }
 
         public void Dispose()
         {
-            if (_endpointInstance != null)
+            if (EndpointInstance != null)
             {
-                _endpointInstance.Stop()
+                EndpointInstance.Stop()
                     .ConfigureAwait(false).GetAwaiter().GetResult();
             }
         }

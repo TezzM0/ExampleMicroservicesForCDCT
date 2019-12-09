@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace CdcTestsShared
 {
-    public abstract class WebApplicationHostClassFixture<TStartup> : IDisposable 
+    public abstract class WebApplicationHost<TStartup> : IDisposable 
         where TStartup : class
     {
         private readonly IWebHost _webHost;
 
-        protected WebApplicationHostClassFixture(string baseUri)
+        protected WebApplicationHost(string baseUri)
         {
             BaseUri = baseUri;
 

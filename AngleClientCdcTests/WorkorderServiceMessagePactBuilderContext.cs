@@ -5,9 +5,9 @@ using CdcTestsShared;
 
 namespace AngleClientCdcTests
 {
-    public class WorkorderServiceMessagePactClassFixture : MessagePactClassFixture
+    public class WorkorderServiceMessagePactBuilderContext : MessagePactBuilderContext
     {
-        public WorkorderServiceMessagePactClassFixture() 
+        public WorkorderServiceMessagePactBuilderContext() 
             : base("AngleClient", "WorkorderService")
         {
         }

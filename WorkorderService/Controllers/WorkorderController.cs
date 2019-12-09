@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NServiceBus;
 using WorkorderService.DomainServices;
 using WorkorderService.Messages;
 
@@ -13,14 +14,14 @@ namespace WorkorderService.Controllers
     public class WorkorderController : ControllerBase
     {
         private readonly ILogger<WorkorderController> _logger;
-        private readonly MessagingService _messagingService;
+        private readonly IMessageSession _messageSession;
         private readonly IClientService _clientService;
 
         public WorkorderController(
-            ILogger<WorkorderController> logger, MessagingService messagingService, IClientService clientService)
+            ILogger<WorkorderController> logger, IMessageSession messageSession, IClientService clientService)
         {
             _logger = logger;
-            _messagingService = messagingService;
+            _messageSession = messageSession;
             _clientService = clientService;
         }
 
@@ -37,7 +38,7 @@ namespace WorkorderService.Controllers
             Thread.Sleep(2000);
 
             var newWorkorderId = Guid.NewGuid().ToString();
-            await _messagingService.Publish(new WorkorderCommitted
+            await _messageSession.Publish(new WorkorderCommitted
             {
                 WorkorderId = newWorkorderId,
                 ClientCode = clientCode

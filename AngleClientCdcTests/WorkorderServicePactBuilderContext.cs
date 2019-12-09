@@ -2,9 +2,9 @@
 
 namespace AngleClientCdcTests
 {
-    public class WorkorderServicePactClassFixture : PactClassFixture
+    public class WorkorderServicePactBuilderContext : PactBuilderContext
     {
-        public WorkorderServicePactClassFixture()
+        public WorkorderServicePactBuilderContext()
             : base("AngleClient", "WorkorderService")
         {
         }

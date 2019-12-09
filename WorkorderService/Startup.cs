@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NServiceBus;
 using WorkorderService.DomainServices;
 
 namespace WorkorderService
@@ -20,9 +21,10 @@ namespace WorkorderService
         public virtual void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            var messagingService = new MessagingService();
-            messagingService.Initialize();
-            services.Add(ServiceDescriptor.Singleton(messagingService));
+            var messagingConfiguration = new MessagingConfiguration();
+            messagingConfiguration.Initialize();
+            services.Add(ServiceDescriptor.Singleton<IMessageSession>(messagingConfiguration.EndpointInstance));
+            services.Add(ServiceDescriptor.Singleton(messagingConfiguration));
             services.Add(ServiceDescriptor.Singleton<IClientService>(new ClientService()));
         }
 

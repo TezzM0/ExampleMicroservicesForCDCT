@@ -8,24 +8,24 @@ using Xunit.Abstractions;
 namespace WorkorderServiceCdcTests
 {
     public class WorkorderServiceApiTests 
-        : IClassFixture<PactEnvironmentClassFixture>, 
-          IClassFixture<ProviderStateHostClassFixture<WorkorderServiceConsumedByAngleClientProviderStateMiddleware>>, 
-          IClassFixture<ProviderHostClassFixture<TestableWorkorderServiceStartup>>
+        : IClassFixture<PactEnvironment>, 
+          IClassFixture<ProviderStateHost<WorkorderServiceConsumedByAngleClientProviderStateMiddleware>>, 
+          IClassFixture<ProviderHost<TestableWorkorderServiceStartup>>
     {
         private readonly ITestOutputHelper _outputHelper;
         private readonly string _pactServiceUri;
         private readonly string _workorderServiceUri;
-        private readonly PactEnvironmentClassFixture _pactEnvironment;
+        private readonly PactEnvironment _pactEnvironment;
 
         public WorkorderServiceApiTests(
-            PactEnvironmentClassFixture pactEnvironment,
-            ProviderStateHostClassFixture<WorkorderServiceConsumedByAngleClientProviderStateMiddleware> pactHostFixture,
-            ProviderHostClassFixture<TestableWorkorderServiceStartup> subjectWebApplication,
+            PactEnvironment pactEnvironment,
+            ProviderStateHost<WorkorderServiceConsumedByAngleClientProviderStateMiddleware> pactHostFixture,
+            ProviderHost<TestableWorkorderServiceStartup> subjectWebApplication,
             ITestOutputHelper outputHelper)
         {
             _outputHelper = outputHelper;
             _pactServiceUri = pactHostFixture.BaseUri;
-            _workorderServiceUri = subjectWebApplication.BaseUri.ToString();
+            _workorderServiceUri = subjectWebApplication.BaseUri;
             _pactEnvironment = pactEnvironment;
         }
 
@@ -34,7 +34,7 @@ namespace WorkorderServiceCdcTests
         {
             var config = new PactVerifierConfig
             {
-                PublishVerificationResults = true,
+                PublishVerificationResults = _pactEnvironment.PublishVerificationResults,
                 ProviderVersion = _pactEnvironment.ProviderVersion,
 
                 // NOTE: We default to using a ConsoleOutput,
